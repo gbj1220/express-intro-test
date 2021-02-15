@@ -238,25 +238,9 @@ app.post("/create-new-top-song/:artistID/:topSongsID", function (req, res) {
 app.put("edit-artists/:artistID", function (req, res) {
   let artistIDNumber = Number(req.params.id);
   let obj = {};
-  let artistArrIndex;
-  let singleArtistIndex;
 
-  artistArray.forEach((artist, index) => {
-    if (artist.id === artistIDNumber) {
-      artistArrIndex = index;
-      let singleArtist = artist.artistArray;
-      singleArtist.forEach((individual, indexArtist) => {
-        singleArtistIndex = indexArtist
-        if (individual.name === req.body.name) {
-          obj = { ...artist, ...req.body};
-          singleArtistIndex = indexArtist;
-        }
-      })
-    }
-  })
-  artistArray[artistArrIndex] = obj;
-  res.json(artistArray)
-  
+
+
 })
 
 app.listen(3000, () => {
@@ -264,7 +248,23 @@ app.listen(3000, () => {
 });
 
 
-
+app.delete("/delete-artist-by-ID/:artistID", function (req, res) {
+  let artistIDNum = Number(req.params.artistID);
+  let artist;
+  let targetArtistIndex;
+  artistArray.forEach((artist, index) => {
+    if (artist.id === artistIDNum) {
+      artist = artistArray.artist;
+      targetArtistIndex = index;
+      return;
+    }
+  });
+  let filteredArtistArray = artist.filter(
+    (item) => item.player !== req.body.player
+  );
+  artistArray[targetArtistIndex].artist = filteredArtistArray;
+  res.send(artistArray);
+});
 
 
 
