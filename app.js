@@ -240,16 +240,79 @@ app.put("/edit-artists/:artistID", function (req, res) {
   artistArray.forEach((artist, index) => {
     if (artist.id === Number(req.params.artistID)) {
       artistIndex = index;
-        obj = {...artist, ...req.body}
+      obj = { ...artist, ...req.body };
     }
   });
   artistArray[artistIndex] = obj;
   res.json(artistArray)
 });
 
+
+app.put("/edit-artists/:artistID/:albumID", function (req, res) {
+  let obj = {};
+  let artistIndex;
+  let albumsArray;
+  let albumIndex;
+  artistArray.forEach((artist, index) => {
+    if (artist.id === Number(req.params.artistID)) {
+      albumsArray = artist.albumsArray;
+      artistIndex = index;
+      albumsArray.forEach((album, index) => {
+        if (album.id === Number(req.params.albumID)) {
+          albumIndex = index
+          obj = { ...album, ...req.body}
+
+        }
+      })
+    }
+  });
+  artistArray[artistIndex].albumsArray[albumIndex] = obj;
+  res.json(artistArray)
+});
+
+
+app.put("/edit-artists-top-songs/:artistID/:topSongsID", function (req, res) {
+  let obj = {};
+  let topSongs
+  let topSongsArray;
+  let artistIndex;
+  artistArray.forEach((artist, index) => {
+    if (artist.id === Number(req.params.artistID)) {
+      topSongsArray = artist.topSongs;
+      artistIndex = index;
+      topSongsArray.forEach((topSong, index) => {
+        if (topSong.id === Number(req.params.topSongsID)) {
+          i = index
+          obj = { ...topSong, ...req.body}
+
+        }
+      })
+    }
+    artistArray[artistIndex].topSongs[i]
+  });
+
+  res.json(artistArray)
+});
+
+
+
+
+
+
+
+
+
+
+
 app.listen(3000, () => {
   console.log("STARTED");
 });
+
+
+
+
+
+
 
 
 app.delete("/delete-artist-by-ID/:artistID", function (req, res) {
