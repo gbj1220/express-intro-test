@@ -234,17 +234,13 @@ app.post("/create-new-top-song/:artistID/:topSongsID", function (req, res) {
   }
 });
 
-app.put("add-artists/:artistID", function (req, res) {
+app.put("/edit-artists/:artistID", function (req, res) {
   let obj = {};
   let artistIndex;
   artistArray.forEach((artist, index) => {
     if (artist.id === Number(req.params.artistID)) {
       artistIndex = index;
-      let singersArray = artist.name;
-      singersArray.forEach((singer) => {
-        if (singer.name === req.body)
-        obj = {...singer, ...req.body}
-      })
+        obj = {...artist, ...req.body}
     }
   });
   artistArray[artistIndex] = obj;
