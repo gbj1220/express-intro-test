@@ -234,14 +234,22 @@ app.post("/create-new-top-song/:artistID/:topSongsID", function (req, res) {
   }
 });
 
-
-app.put("edit-artists/:artistID", function (req, res) {
-  let artistIDNumber = Number(req.params.id);
+app.put("add-artists/:artistID", function (req, res) {
   let obj = {};
-
-
-
-})
+  let artistIndex;
+  artistArray.forEach((artist, index) => {
+    if (artist.id === Number(req.params.artistID)) {
+      artistIndex = index;
+      let singersArray = artist.name;
+      singersArray.forEach((singer) => {
+        if (singer.name === req.body)
+        obj = {...singer, ...req.body}
+      })
+    }
+  });
+  artistArray[artistIndex] = obj;
+  res.json(artistArray)
+});
 
 app.listen(3000, () => {
   console.log("STARTED");
@@ -254,6 +262,7 @@ app.delete("/delete-artist-by-ID/:artistID", function (req, res) {
   let targetArtistIndex;
   artistArray.forEach((artist, index) => {
     if (artist.id === artistIDNum) {
+      console.log("123");
       artist = artistArray.artist;
       targetArtistIndex = index;
       return;
