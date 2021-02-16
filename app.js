@@ -288,7 +288,7 @@ app.put("/edit-artists-top-songs/:artistID/:topSongsID", function (req, res) {
         }
       })
     }
-    artistArray[artistIndex].topSongs[i]
+    artistArray[artistIndex].topSongs[i] = obj
   });
 
   res.json(artistArray)
