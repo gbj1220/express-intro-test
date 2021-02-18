@@ -242,9 +242,19 @@ app.put("/edit-artists/:artistID", function (req, res) {
       artistIndex = index;
       obj = { ...artist, ...req.body };
     }
-  });
-  artistArray[artistIndex] = obj;
-  res.json(artistArray)
+    if (artist.id !== Number(req.params.artistID)) {
+      return res
+        .status(500)
+        .send(
+          "Artist does not exist."
+        )
+
+    } else {
+
+      artistArray[artistIndex] = obj;
+      res.json(artistArray)
+    }
+  })
 });
 
 
@@ -260,48 +270,53 @@ app.put("/edit-artists/:artistID/:albumID", function (req, res) {
       albumsArray.forEach((album, index) => {
         if (album.id === Number(req.params.albumID)) {
           albumIndex = index
-          obj = { ...album, ...req.body}
-
+          obj = { ...album, ...req.body }
         }
       })
-    }
-  });
+    } if (artist.id !== Number(req.params.artistID)) {
+      return res
+        .status(500)
+        .send(
+          "Album does not exist."
+        )}
+      });
   artistArray[artistIndex].albumsArray[albumIndex] = obj;
   res.json(artistArray)
-});
-
+    })
 
 app.put("/edit-artists-top-songs/:artistID/:topSongsID", function (req, res) {
   let obj = {};
-  let topSongs
   let topSongsArray;
   let artistIndex;
   artistArray.forEach((artist, index) => {
+    if (artist.id !== Number(req.params.artistID)) {
+      return res
+        .status(500)
+        .send(
+          "Artist does not exist."
+        )};
     if (artist.id === Number(req.params.artistID)) {
       topSongsArray = artist.topSongs;
       artistIndex = index;
       topSongsArray.forEach((topSong, index) => {
         if (topSong.id === Number(req.params.topSongsID)) {
           i = index
-          obj = { ...topSong, ...req.body}
-
+          obj = { ...topSong, ...req.body }
         }
-      })
+      });
     }
     artistArray[artistIndex].topSongs[i] = obj
   });
-
-  res.json(artistArray)
+  return res.json(artistArray)
 });
 
 
+app.delete("/artist/:artistID", function (req, res) {
 
+  let deletedArtist = artistArray.filter((i) => i.id !== Number(req.params.artistID));
+  res.send(deletedArtist)
 
-
-
-
-
-
+})
 
 
 app.listen(3000, () => {
@@ -314,25 +329,6 @@ app.listen(3000, () => {
 
 
 
-
-app.delete("/delete-artist-by-ID/:artistID", function (req, res) {
-  let artistIDNum = Number(req.params.artistID);
-  let artist;
-  let targetArtistIndex;
-  artistArray.forEach((artist, index) => {
-    if (artist.id === artistIDNum) {
-      console.log("123");
-      artist = artistArray.artist;
-      targetArtistIndex = index;
-      return;
-    }
-  });
-  let filteredArtistArray = artist.filter(
-    (item) => item.player !== req.body.player
-  );
-  artistArray[targetArtistIndex].artist = filteredArtistArray;
-  res.send(artistArray);
-});
 
 
 
